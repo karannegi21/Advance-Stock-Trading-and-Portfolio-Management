@@ -7,10 +7,13 @@ from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.admin import router as admin_router
+from app.api.analytics import router as analytics_router
 from app.api.auth import router as auth_router
+from app.api.leaderboard import router as leaderboard_router
 from app.api.orders import router as orders_router
 from app.api.portfolio import router as portfolio_router
 from app.api.stocks import router as stocks_router
+from app.api.watchlist import router as watchlist_router
 from app.core.config import settings
 from app.core.database import AsyncSessionLocal
 from app.models.simulator import SimState
@@ -58,10 +61,13 @@ app.add_middleware(
 
 # API Routers
 app.include_router(admin_router, prefix="/api/v1")
+app.include_router(analytics_router, prefix="/api/v1")
 app.include_router(auth_router, prefix="/api/v1")
+app.include_router(leaderboard_router, prefix="/api/v1")
 app.include_router(orders_router, prefix="/api/v1")
 app.include_router(portfolio_router, prefix="/api/v1")
 app.include_router(stocks_router, prefix="/api/v1")
+app.include_router(watchlist_router, prefix="/api/v1")
 
 
 @app.websocket("/ws/prices")
