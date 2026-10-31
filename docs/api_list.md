@@ -1,0 +1,27 @@
+# API List
+
+- POST /api/v1/auth/register
+- POST /api/v1/auth/login
+- POST /api/v1/auth/refresh
+- GET /api/v1/auth/me
+- GET /api/v1/stocks
+- GET /api/v1/stocks/{symbol}
+- GET /api/v1/stocks/{symbol}/history
+- POST /api/v1/orders
+- GET /api/v1/orders
+- DELETE /api/v1/orders/{id}
+- GET /api/v1/portfolio
+- GET /api/v1/portfolio/history
+- POST /api/v1/portfolio/snapshot
+- GET /api/v1/analytics
+- GET /api/v1/analytics/equity-curve
+- POST /api/v1/watchlist/{symbol}
+- DELETE /api/v1/watchlist/{symbol}
+- GET /api/v1/watchlist
+- GET /api/v1/leaderboard
+- POST /api/v1/admin/simulator/start
+- POST /api/v1/admin/simulator/pause
+- POST /api/v1/admin/simulator/reset
+- GET /api/v1/admin/simulator/status
+- WS /ws/prices
+- GET /health
