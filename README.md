@@ -71,4 +71,78 @@ This platform simulates a real stock exchange using historical NSE data. Prices 
 ## 🛠 Tech Stack
 | Layer | Technologies |
 |-------|--------------|
-| **Frontend** | React 18, Vite, TypeScript,
+| **Frontend** | React 18, Vite, TypeScript, Tailwind CSS, TanStack Query, Zustand, Lightweight Charts |
+| **Backend** | FastAPI, SQLAlchemy 2.x, Alembic, WebSockets |
+| **Market Simulator** | Historical NSE tick replay with Brownian bridge intraday ticks |
+| **Database** | PostgreSQL (Neon) |
+| **Deployment** | Vercel (frontend), Render (backend) |
+| **CI/CD** | GitHub Actions |
+
+---
+
+## 📁 Project Structure
+```
+├── backend/              # FastAPI service (API, matching engine, simulator)
+├── frontend/             # React + Vite app
+├── docs/                 # Documentation
+├── .github/workflows/    # CI pipelines
+├── render.yaml           # Render deployment spec
+├── IMPLEMENTATION_PLAN.md
+└── README.md
+```
+
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+- Python 3.10+
+- Node.js 18+
+- PostgreSQL (local or a Neon connection string)
+
+### 1. Backend
+```bash
+cd backend
+python -m venv venv
+
+# Windows
+.\venv\Scripts\activate
+# macOS / Linux
+source venv/bin/activate
+
+pip install -r requirements.txt
+cp .env.example .env        # add your DATABASE_URL
+uvicorn app.main:app --reload
+```
+API docs run locally at `http://localhost:8000/docs`.
+
+### 2. Frontend
+```bash
+cd frontend
+npm install
+cp .env.example .env        # set the backend URL
+npm run dev
+```
+
+---
+
+## 🌍 Deployment
+- **Frontend:** Vercel
+- **Backend:** Render, configured via `render.yaml`
+- **Database:** Neon PostgreSQL
+
+---
+
+## 🗺 Roadmap
+- [x] Historical data replay and live WebSocket prices
+- [x] Order matching engine
+- [x] Portfolio accounting
+
+---
+
+## 👨‍💻 Author
+**Karan Singh Negi** · [GitHub](https://github.com/karannegi21)
+
+---
+
+⭐ If you found this project useful, consider giving it a star!
