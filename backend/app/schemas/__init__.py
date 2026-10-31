@@ -8,6 +8,8 @@ from app.schemas.auth import (
     TokenResponse,
     UserOut,
 )
+from app.schemas.order import OrderCreate, OrderOut
+from app.schemas.portfolio import HoldingOut, PortfolioOut, PortfolioSnapshotOut
 from app.schemas.stock import (
     StockBase,
     StockOut,
@@ -23,6 +25,11 @@ __all__ = [
     "RegisterRequest",
     "TokenResponse",
     "UserOut",
+    "OrderCreate",
+    "OrderOut",
+    "HoldingOut",
+    "PortfolioOut",
+    "PortfolioSnapshotOut",
     "StockBase",
     "StockOut",
     "StockDetailOut",
