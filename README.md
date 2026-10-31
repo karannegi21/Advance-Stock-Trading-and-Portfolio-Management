@@ -49,4 +49,26 @@ This platform simulates a real stock exchange using historical NSE data. Prices 
 - **Live exchange simulation:** historical NSE data replayed with Brownian-bridge intraday ticks
 - **Real-time prices:** WebSocket broadcasts to every connected client
 - **Order matching engine:** orders are matched against the simulated market
-- **Portfolio accounting:** holdings, P&L and
+- **Portfolio accounting:** holdings, P&L and cash balance tracking
+- **Quantitative analytics:** performance and risk metrics for your portfolio
+- **Interactive charts:** candlestick charts built with Lightweight Charts
+
+---
+
+## 🏗 Architecture
+```
+ React + Vite (Vercel)
+      │   REST + WebSocket
+      ▼
+ FastAPI (Render) ──► Market Simulator (NSE tick replay)
+      │
+      ▼
+ PostgreSQL (Neon)
+```
+
+---
+
+## 🛠 Tech Stack
+| Layer | Technologies |
+|-------|--------------|
+| **Frontend** | React 18, Vite, TypeScript,
