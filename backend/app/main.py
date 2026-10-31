@@ -1,13 +1,42 @@
 """FastAPI Application entrypoint."""
 
-from fastapi import FastAPI
+import asyncio
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.admin import router as admin_router
 from app.api.auth import router as auth_router
 from app.api.orders import router as orders_router
 from app.api.portfolio import router as portfolio_router
 from app.api.stocks import router as stocks_router
 from app.core.config import settings
+from app.core.database import AsyncSessionLocal
+from app.models.simulator import SimState
+from app.services.market_simulator import run_simulator
+from app.ws.manager import manager
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Auto-start simulator if configured
+    async with AsyncSessionLocal() as db:
+        from sqlalchemy import select
+        res = await db.execute(select(SimState).where(SimState.id == 1))
+        state = res.scalar_one_or_none()
+        if state is not None and settings.SIMULATOR_AUTO_START:
+            state.is_running = True
+            await db.commit()
+
+    task = asyncio.create_task(run_simulator())
+    yield
+    task.cancel()
+    try:
+        await task
+    except asyncio.CancelledError:
+        pass
+
 
 app = FastAPI(
     title="Stock Platform API",
@@ -15,6 +44,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
 
 # CORS configuration
@@ -27,10 +57,21 @@ app.add_middleware(
 )
 
 # API Routers
+app.include_router(admin_router, prefix="/api/v1")
 app.include_router(auth_router, prefix="/api/v1")
 app.include_router(orders_router, prefix="/api/v1")
 app.include_router(portfolio_router, prefix="/api/v1")
 app.include_router(stocks_router, prefix="/api/v1")
+
+
+@app.websocket("/ws/prices")
+async def websocket_prices(websocket: WebSocket):
+    await manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except Exception:
+        manager.disconnect(websocket)
 
 
 @app.get("/health", tags=["Health"])
