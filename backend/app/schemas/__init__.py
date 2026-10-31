@@ -1,5 +1,13 @@
 """Pydantic schemas package."""
 
+from app.schemas.auth import (
+    AuthResponse,
+    LoginRequest,
+    RefreshRequest,
+    RegisterRequest,
+    TokenResponse,
+    UserOut,
+)
 from app.schemas.stock import (
     StockBase,
     StockOut,
@@ -9,6 +17,12 @@ from app.schemas.stock import (
 )
 
 __all__ = [
+    "AuthResponse",
+    "LoginRequest",
+    "RefreshRequest",
+    "RegisterRequest",
+    "TokenResponse",
+    "UserOut",
     "StockBase",
     "StockOut",
     "StockDetailOut",
