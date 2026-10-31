@@ -78,3 +78,4 @@ class PriceBar(Base):
         UniqueConstraint("stock_id", "trade_date", name="uq_stock_trade_date"),
         Index("ix_price_bars_stock_date", "stock_id", "trade_date"),
     )
+

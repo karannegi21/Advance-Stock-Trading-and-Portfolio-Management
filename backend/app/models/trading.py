@@ -134,3 +134,4 @@ class WatchlistItem(Base):
         UniqueConstraint("user_id", "stock_id", name="uq_user_stock_watchlist"),
         Index("ix_watchlist_user_id", "user_id"),
     )
+

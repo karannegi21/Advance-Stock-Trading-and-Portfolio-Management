@@ -78,3 +78,4 @@ class Account(Base):
 
     # Relationships
     user: Mapped["User"] = relationship("User", back_populates="account")
+

@@ -1,5 +1,6 @@
 """Database session and engine management."""
 
+import ssl
 from typing import AsyncGenerator, Generator
 from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import (
@@ -31,9 +32,18 @@ SyncSessionLocal = sessionmaker(
     expire_on_commit=False,
 )
 
+# Async connect arguments for SSL on cloud databases
+connect_args = {}
+if "neon.tech" in settings.DATABASE_URL or "sslmode=require" in settings.DATABASE_URL:
+    ssl_ctx = ssl.create_default_context()
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+    connect_args["ssl"] = ssl_ctx
+
 # Async Engine & Session (FastAPI routes & async services)
 async_engine = create_async_engine(
     settings.async_database_url,
+    connect_args=connect_args,
     pool_pre_ping=True,
     pool_size=10,
     max_overflow=20,

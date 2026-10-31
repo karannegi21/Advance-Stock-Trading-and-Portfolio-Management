@@ -46,3 +46,4 @@ class PortfolioSnapshot(Base):
         UniqueConstraint("user_id", "snap_date", name="uq_user_snap_date"),
         Index("ix_snapshots_user_date", "user_id", "snap_date"),
     )
+

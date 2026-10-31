@@ -3,6 +3,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.stocks import router as stocks_router
+from app.core.config import settings
+
 app = FastAPI(
     title="Stock Platform API",
     description="Paper trading and portfolio management API with live market simulator.",
@@ -14,11 +17,14 @@ app = FastAPI(
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Restrict in production
+    allow_origins=settings.CORS_ORIGINS if isinstance(settings.CORS_ORIGINS, list) else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# API Routers
+app.include_router(stocks_router, prefix="/api/v1")
 
 
 @app.get("/health", tags=["Health"])
@@ -39,4 +45,5 @@ async def root():
         "message": "Stock Trading Platform API is operational.",
         "docs": "/docs",
         "health": "/health",
+        "api_v1": "/api/v1",
     }
